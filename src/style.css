@@ -23,7 +23,6 @@ body
 
 .counter{
     font-size: 2rem;
-    display: none;
 }
 
 .counter p{
@@ -31,7 +30,7 @@ body
 }
 
 .countCont{
-    display: flex;
+    display: none;
     justify-content: center;
 }
 

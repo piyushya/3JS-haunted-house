@@ -23,7 +23,7 @@ debugObject.graves = {
 
 // Overlay
 const overlay = document.querySelector(".overlay")
-const counter = document.querySelector(".counter")
+const counter = document.querySelector(".countCont")
 const loadedDisplay = document.querySelector(".loaded")
 const totalDisplay = document.querySelector(".total")
 
@@ -39,7 +39,7 @@ const scene = new THREE.Scene()
 const loadingManager = new THREE.LoadingManager()
 
 loadingManager.onStart = (url, loaded, total) => {
-    counter.style.display = "block";
+    counter.style.display = "flex";
 }
 
 loadingManager.onProgress = (url, loaded, total) => {
@@ -182,16 +182,16 @@ const graveMaterial = new THREE.MeshStandardMaterial({
     metalnessMap: graveARMTexture,
 })
 
-const fontLoader = new FontLoader()
+const fontLoader = new FontLoader(loadingManager)
 fontLoader.load(
     "./fonts/helvetiker_regular.typeface.json", 
     (font) => {
         const textGeometry1 = new TextGeometry(
-            "SCARY",
+            "SPOOKY",
             {
                 font: font,
-                size: 1,
-                depth: 0.5,
+                size: 0.5,
+                depth: 0.1,
                 curveSegments: 5,
                 bevelSegments: 4,
                 bevelEnabled: true,
@@ -201,13 +201,12 @@ fontLoader.load(
             }
         )
         const text1 = new THREE.Mesh(textGeometry1, graveMaterial)
-        text1.position.x = -7
         const textGeometry2 = new TextGeometry(
-            "NIGHT",
+            "HOUSE",
             {
                 font: font,
-                size: 1,
-                depth: 0.5,
+                size: 0.5,
+                depth: 0.1,
                 curveSegments: 5,
                 bevelSegments: 4,
                 bevelEnabled: true,
@@ -216,14 +215,25 @@ fontLoader.load(
                 bevelOffset: 0
             }
         )
+        textGeometry1.center()
+        textGeometry2.center()
         const text2 = new THREE.Mesh(textGeometry2, graveMaterial)
-        text2.position.x = 3
+
+        text1.rotation.y = -Math.PI * 0.5
+        text1.position.x = -(2 + 0.05)
+
+        text2.rotation.y = Math.PI * 0.5
+        text2.position.x = (2 + 0.05)
+       
+        text1.position.y = 1
+        text2.position.y = 1
+
         text1.castShadow = true
         text1.receiveShadow = true
         text2.castShadow = true
         text2.receiveShadow = true
-        // scene.add(text2)
-        // scene.add(text1)
+        scene.add(text2)
+        scene.add(text1)
     }
 )
 /**
