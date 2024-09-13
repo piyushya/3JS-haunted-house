@@ -21,6 +21,12 @@ debugObject.graves = {
     count : 30,
 }
 
+// Overlay
+const overlay = document.querySelector(".overlay")
+const counter = document.querySelector(".counter")
+const loadedDisplay = document.querySelector(".loaded")
+const totalDisplay = document.querySelector(".total")
+
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -30,7 +36,22 @@ const scene = new THREE.Scene()
 /*
  * Textures
  */
-const textureLoader = new THREE.TextureLoader()
+const loadingManager = new THREE.LoadingManager()
+
+loadingManager.onStart = (url, loaded, total) => {
+    counter.style.display = "block";
+}
+
+loadingManager.onProgress = (url, loaded, total) => {
+    loadedDisplay.innerHTML = loaded
+    totalDisplay.innerHTML = total
+}
+
+loadingManager.onLoad = () => {
+    overlay.style.display = "none";
+}
+
+const textureLoader = new THREE.TextureLoader(loadingManager)
 const floorAlphaTexture = textureLoader.load("./floor/alpha.jpg")
 const floorColorTexture = textureLoader.load('./floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.webp')
 const floorARMTexture = textureLoader.load('./floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.webp')
@@ -475,7 +496,7 @@ ghost3.shadow.camera.far = 10
 
 const directionalLightShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
 // scene.add(directionalLightShadowHelper)
-console.log(directionalLightShadowHelper)
+// console.log(directionalLightShadowHelper)
 floor.receiveShadow = true
 walls.castShadow = true
 walls.receiveShadow = true

@@ -10,6 +10,31 @@ body
     overflow: hidden;
 }
 
+.overlay{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.counter{
+    font-size: 2rem;
+    display: none;
+}
+
+.counter p{
+    font-size: 1.5rem;
+}
+
+.countCont{
+    display: flex;
+    justify-content: center;
+}
+
 .webgl
 {
     position: fixed;
